@@ -25,7 +25,13 @@ export default function SignupPage() {
       const createRes = await fetch(`${PB_URL}/api/collections/users/records`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, passwordConfirm }),
+        body: JSON.stringify({
+            email,
+            password,
+            passwordConfirm,
+            name: email,
+            username: email.split('@')[0],
+          }),
       });
       if (!createRes.ok) {
         setError('Could not create account. The email may already be in use.');
