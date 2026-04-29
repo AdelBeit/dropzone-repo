@@ -32,10 +32,18 @@ export function DropZone({ onUploadComplete }: Props) {
 
   const onDrop = useCallback((accepted: File[]) => {
     setResults([]);
-    setPending((prev) => [
-      ...prev,
-      ...accepted.map((f) => ({ id: crypto.randomUUID(), file: f })),
-    ]);
+    setPending((prev) => {
+      const next = [...prev];
+      for (const f of accepted) {
+        const existing = next.findIndex((p) => p.file.name === f.name && p.file.size === f.size);
+        if (existing !== -1) {
+          next[existing] = { id: next[existing].id, file: f };
+        } else {
+          next.push({ id: crypto.randomUUID(), file: f });
+        }
+      }
+      return next;
+    });
   }, []);
 
   const onDropRejected = useCallback((rejections: FileRejection[]) => {
