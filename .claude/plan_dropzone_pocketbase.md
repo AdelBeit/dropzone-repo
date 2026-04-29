@@ -107,16 +107,22 @@ issues in Next.js App Router.
 
 ## Build Order
 
-1. Docker: `docker-compose.yml` + `.env` + `pb_setup/setup.sh`
-2. Next.js scaffold — TypeScript, Tailwind, App Router
-3. `src/config/uploads.ts` — size constants
-4. `src/lib/pb.ts` — fetch wrapper + auth helpers
-5. `middleware.ts` — auth guard
-6. `/login` + `/signup` pages
-7. `Dropzone.tsx` component (react-dropzone)
-8. `FileList.tsx` component
-9. Dashboard page — wire dropzone + file list
-10. End-to-end test: signup → upload → list
+- [x] Docker: `docker-compose.yml` + `.env` + `.env.example` + `.gitignore`
+- [x] `pb_setup/Dockerfile` — PocketBase 0.22.0 on debian:bookworm-slim
+- [x] `pb_setup/setup.sh` — admin bootstrap + files collection creation
+- [x] Next.js scaffold — TypeScript, Tailwind, App Router, src dir
+- [x] `src/config/uploads.ts` — size constants
+- [x] `src/lib/pb.ts` — fetch wrapper + auth helpers
+- [x] `src/middleware.ts` — auth guard
+- [x] `frontend/.env.local` — NEXT_PUBLIC_PB_URL
+- [ ] `react-dropzone` npm install — **BLOCKED: network timeout, run manually:** `cd frontend && npm install react-dropzone`
+- [x] `src/app/page.tsx` — redirect root → /dashboard
+- [x] `src/app/layout.tsx` — clean up scaffold boilerplate
+- [x] `src/app/login/page.tsx`
+- [x] `src/app/signup/page.tsx`
+- [x] `src/app/dashboard/page.tsx`
+- [x] `src/components/Dropzone.tsx`
+- [x] `src/components/FileList.tsx`
 
 ---
 

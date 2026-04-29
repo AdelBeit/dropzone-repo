@@ -1,12 +1,14 @@
 services:
   pocketbase:
-    build:
-      context: ./pb_setup
-      dockerfile: Dockerfile
+    image: ghcr.io/muchobien/pocketbase:latest
     ports:
       - "8090:8090"
+    environment:
+      PB_ADMIN_EMAIL: ${PB_ADMIN_EMAIL}
+      PB_ADMIN_PASSWORD: ${PB_ADMIN_PASSWORD}
     volumes:
-      - pb_data:/pb/pb_data
+      - pb_data:/pb_data
+      - ./pb_migrations:/pb_migrations
     restart: unless-stopped
 
 volumes:
