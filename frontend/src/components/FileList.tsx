@@ -9,7 +9,6 @@ interface PbFile {
   file_name: string;
   file_size: number;
   created: string;
-  collectionId: string;
 }
 
 function formatBytes(bytes: number): string {
@@ -60,37 +59,49 @@ export function FileList({ refreshKey }: { refreshKey: number }) {
     fetchFiles();
   }
 
-  if (loading) {
-    return <p className="text-sm text-gray-400">Loading files…</p>;
-  }
-
-  if (files.length === 0) {
-    return <p className="text-sm text-gray-400">No files uploaded yet.</p>;
-  }
+  if (loading) return <p className="text-sm text-gray-400">Loading files…</p>;
+  if (files.length === 0) return <p className="text-sm text-gray-400">No files uploaded yet.</p>;
 
   return (
     <div className="w-full max-w-3xl">
-      <p className="mb-3 text-xs font-medium uppercase tracking-wide text-gray-400">Your files</p>
-      <div className="divide-y divide-gray-100 rounded-xl border border-gray-200 bg-white">
-        {files.map((file) => (
-          <div key={file.id} className="flex items-center gap-4 px-4 py-3">
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-gray-900">
-                {file.file_name || file.file}
-              </p>
-              <p className="text-xs text-gray-400">
-                {formatBytes(file.file_size)} · {formatDate(file.created)}
-              </p>
-            </div>
-            <button
-              onClick={() => handleDelete(file)}
-              disabled={deletingId === file.id}
-              className="shrink-0 text-xs text-red-400 hover:text-red-600 disabled:opacity-40 transition-colors"
-            >
-              {deletingId === file.id ? 'Deleting…' : 'Delete'}
-            </button>
-          </div>
-        ))}
+      <p className="mb-3 text-xs font-medium uppercase tracking-wide text-gray-400">
+        Uploaded files
+      </p>
+      <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-gray-100 bg-gray-50">
+              <th className="text-left px-4 py-2.5 font-medium text-gray-500">Name</th>
+              <th className="text-left px-4 py-2.5 font-medium text-gray-500">Size</th>
+              <th className="text-left px-4 py-2.5 font-medium text-gray-500">Uploaded</th>
+              <th className="px-4 py-2.5" />
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {files.map((file) => (
+              <tr key={file.id} className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-3 text-gray-900 font-medium max-w-xs truncate">
+                  {file.file_name || file.file}
+                </td>
+                <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
+                  {formatBytes(file.file_size)}
+                </td>
+                <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
+                  {formatDate(file.created)}
+                </td>
+                <td className="px-4 py-3 text-right">
+                  <button
+                    onClick={() => handleDelete(file)}
+                    disabled={deletingId === file.id}
+                    className="text-xs text-red-400 hover:text-red-600 disabled:opacity-40 transition-colors"
+                  >
+                    {deletingId === file.id ? 'Deleting…' : 'Delete'}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
