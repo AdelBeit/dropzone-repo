@@ -1,0 +1,13 @@
+services:
+  pocketbase:
+    build:
+      context: ./pb_setup
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    volumes:
+      - pb_data:/pb/pb_data
+    restart: unless-stopped
+
+volumes:
+  pb_data:
