@@ -31,7 +31,7 @@ export default function DashboardPage() {
         <span className="text-sm text-gray-500">{email}</span>
         <button
           onClick={handleLogout}
-          className="text-sm text-gray-900 underline hover:text-gray-600"
+          className="text-sm font-medium px-4 py-1.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors"
         >
           Logout
         </button>

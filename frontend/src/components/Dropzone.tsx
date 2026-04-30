@@ -69,7 +69,15 @@ export function DropZone({ onUploadComplete }: Props) {
       body.append('file_name', file.name);
       body.append('file_size', String(file.size));
 
-      const res = await pbFetch('/api/collections/files/records', { method: 'POST', body });
+      const filter = encodeURIComponent(`(owner = '${auth.userId}' && file_name = '${file.name}')`);
+      const existing = await pbFetch(`/api/collections/files/records?filter=${filter}&perPage=1`);
+      const existingData = existing.ok ? await existing.json() : null;
+      const existingId = existingData?.items?.[0]?.id;
+
+      const res = existingId
+        ? await pbFetch(`/api/collections/files/records/${existingId}`, { method: 'PATCH', body })
+        : await pbFetch('/api/collections/files/records', { method: 'POST', body });
+
       uploadResults.push({ name: file.name, ok: res.ok });
     }
 
